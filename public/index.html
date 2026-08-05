@@ -4,21 +4,72 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Manga Hunt - Read Free Manga</title>
-  <link rel="stylesheet" href="styles.css">
+  
+  <!-- ১০০% ডার্ক মোড গ্যারান্টি দেওয়ার জন্য স্টাইল সরাসরি HTML এ দেওয়া হলো -->
+  <style>
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #000000 !important; /* ওয়েবসাইট একদম কালো */
+      color: #ffffff !important; /* লেখা সাদা */
+    }
+    .manga-card {
+      background: #111111;
+      border-radius: 8px;
+      overflow: hidden;
+      text-decoration: none;
+      color: #ffffff;
+      border: 1px solid #222;
+      transition: transform 0.2s;
+    }
+    .manga-card:hover {
+      transform: translateY(-5px);
+      border-color: #38bdf8;
+    }
+    .manga-card img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+    }
+    .ad-slot {
+      width: 100%;
+      min-height: 90px;
+      background: #111111;
+      border: 1px dashed #444;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 1rem 0;
+      color: #888;
+    }
+    .manga-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1.5rem;
+      padding: 2rem;
+      width: 100%;
+      box-sizing: border-box;
+    }
+  </style>
 </head>
-<body>
+<body style="background-color: #000000; color: #ffffff;">
 
-  <img src="kaka.jpg" alt="Manga Hunt Banner" class="main-banner">
+  <!-- ফোর্স সেন্টার করার জন্য নতুন ডিভ -->
+  <div style="display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; padding-top: 20px;">
+    
+    <!-- ব্যানার ছবি -->
+    <img src="kaka.jpg" alt="Manga Hunt Banner" style="max-width: 90%; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 4px 8px rgba(255,255,255,0.05);">
 
-  <header>
-    <div class="brand-group">
-      <h2>Manga Hunt</h2>
+    <!-- লোগো এবং সার্চ বক্স -->
+    <div style="margin-bottom: 30px;">
+      <h2 style="font-size: 2rem; margin-bottom: 15px; color: #fff;">Manga Hunt</h2>
+      <input type="text" id="searchInput" placeholder="Search manga..." onkeyup="searchManga()" 
+             style="padding: 12px; width: 300px; max-width: 90vw; border-radius: 8px; border: 1px solid #38bdf8; background: #111111; color: #fff; text-align: center; font-size: 1rem;">
     </div>
-    <div class="search-box">
-      <input type="text" id="searchInput" placeholder="Search manga..." onkeyup="searchManga()">
-    </div>
-  </header>
 
+  </div>
+
+  <!-- TOP MONETIZATION AD SPOT -->
   <div class="ad-slot" id="top-ad-banner">
     <span>[ Ad Space - Place Adsterra/HilltopAds Script Here ]</span>
   </div>
@@ -47,7 +98,7 @@
           card.href = `reader.html?id=${manga.id}&title=${encodeURIComponent(title)}`;
           card.innerHTML = `
             <img src="${coverUrl}" alt="${title}">
-            <h3>${title}</h3>
+            <h3 style="text-align: center; padding: 0.75rem; margin: 0; font-size: 0.95rem;">${title}</h3>
           `;
           grid.appendChild(card);
         });
