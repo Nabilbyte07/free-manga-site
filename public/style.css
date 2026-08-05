@@ -1,132 +1,76 @@
-:root {
-  --bg-color: #0f172a;
-  --card-bg: #1e293b;
-  --accent: #38bdf8;
-  --text: #f8fafc;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manga Hunt - Read Free Manga</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background-color: var(--bg-color);
-  color: var(--text);
-  display: flex; 
-  flex-direction: column; 
-  align-items: center; 
-}
+  <!-- ফোর্স সেন্টার করার জন্য নতুন ডিভ -->
+  <div style="display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; padding-top: 20px;">
+    
+    <!-- ব্যানার ছবি -->
+    <img src="1000073686.jpg" alt="Manga Hunt Banner" style="max-width: 90%; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.5);">
 
-.main-banner {
-  display: block; 
-  margin: 0 auto; 
-  max-width: 100%; 
-  height: auto; 
-  margin-bottom: 2rem; 
-  border-radius: 8px; 
-}
+    <!-- লোগো এবং সার্চ বক্স -->
+    <div style="margin-bottom: 30px;">
+      <h2 style="font-size: 2rem; margin-bottom: 15px; color: #fff;">Manga Hunt</h2>
+      <input type="text" id="searchInput" placeholder="Search manga..." onkeyup="searchManga()" 
+             style="padding: 12px; width: 300px; max-width: 90vw; border-radius: 8px; border: 1px solid #38bdf8; background: #1e293b; color: #fff; text-align: center; font-size: 1rem;">
+    </div>
 
-header {
-  display: flex;
-  justify-content: center; 
-  align-items: center;
-  flex-wrap: wrap; 
-  gap: 2rem; 
-  padding: 1rem 2rem;
-  width: 100%; 
-  box-sizing: border-box; 
-  margin-bottom: 1rem; 
-}
+  </div>
 
-.brand-group {
-  display: flex;
-  align-items: center;
-  gap: 10px; 
-}
+  <!-- TOP MONETIZATION AD SPOT -->
+  <div class="ad-slot" id="top-ad-banner">
+    <span>[ Ad Space - Place Adsterra/HilltopAds Script Here ]</span>
+  </div>
 
-header h2 {
-  font-size: 1.5rem;
-  color: #fff;
-  margin: 0;
-}
+  <main>
+    <div class="manga-grid" id="mangaGrid">Loading popular manga...</div>
+  </main>
 
-.search-box {
-  width: 300px; 
-  max-width: 100%; 
-}
+  <script>
+    async function fetchManga(query = '') {
+      const grid = document.getElementById('mangaGrid');
+      grid.innerHTML = 'Loading...';
+      try {
+        const res = await fetch(`/api/get-manga?action=search&query=${encodeURIComponent(query)}`);
+        const data = await res.json();
+        
+        grid.innerHTML = '';
+        data.data.forEach(manga => {
+          const title = manga.attributes.title.en || 'Untitled';
+          const coverRel = manga.relationships.find(r => r.type === 'cover_art');
+          const fileName = coverRel ? coverRel.attributes?.fileName : '';
+          const coverUrl = fileName ? `https://uploads.mangadex.org/covers/${manga.id}/${fileName}.256.jpg` : 'https://via.placeholder.com/250';
 
-.search-box input {
-  width: 100%; 
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  border: 1px solid #334155;
-  background: #0f172a;
-  color: #fff;
-}
+          const card = document.createElement('a');
+          card.className = 'manga-card';
+          card.href = `reader.html?id=${manga.id}&title=${encodeURIComponent(title)}`;
+          card.innerHTML = `
+            <img src="${coverUrl}" alt="${title}">
+            <h3 style="text-align: center;">${title}</h3>
+          `;
+          grid.appendChild(card);
+        });
+      } catch (err) {
+        grid.innerHTML = 'Failed to load manga.';
+      }
+    }
 
-.manga-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 1.5rem;
-  padding: 2rem;
-  width: 100%; 
-  box-sizing: border-box;
-}
+    let timeout = null;
+    function searchManga() {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        const q = document.getElementById('searchInput').value;
+        fetchManga(q);
+      }, 500);
+    }
 
-.manga-card {
-  background: var(--card-bg);
-  border-radius: 8px;
-  overflow: hidden;
-  text-decoration: none;
-  color: inherit;
-  transition: transform 0.2s;
-}
-
-.manga-card:hover {
-  transform: translateY(-5px);
-}
-
-.manga-card img {
-  width: 100%;
-  height: 250px;
-  object-fit: cover;
-}
-
-.manga-card h3 {
-  font-size: 0.95rem;
-  padding: 0.75rem;
-  margin: 0;
-}
-
-.ad-slot {
-  width: 100%;
-  min-height: 90px;
-  background: #1e293b;
-  border: 1px dashed #475569;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 1rem 0;
-  color: #94a3b8;
-  font-size: 0.85rem;
-}
-
-.reader-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 1rem;
-}
-
-.reader-container img {
-  width: 100%;
-  display: block;
-}
-
-.support-btn {
-  display: inline-block;
-  background: #f59e0b;
-  color: #000;
-  padding: 0.75rem 1.5rem;
-  font-weight: bold;
-  border-radius: 6px;
-  text-decoration: none;
-  margin: 1rem 0;
-}
+    fetchManga();
+  </script>
+</body>
+</html>
