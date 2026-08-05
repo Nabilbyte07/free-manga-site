@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reading Manga</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header>
+    <a href="index.html" style="color: #fff; text-decoration: none;">← Back to Home</a>
+    <h3 id="mangaTitle">Manga Reader</h3>
+  </header>
+
+  <div class="reader-container">
+    
+    <!-- SUPPORT / DONATION BANNER -->
+    <div style="text-align: center;">
+      <a href="https://ko-fi.com" target="_blank" class="support-btn">☕ Buy Me a Coffee to Support Free Manga!</a>
+    </div>
+
+    <!-- TOP READER AD SLOT -->
+    <div class="ad-slot">
+      <!-- PASTE YOUR AD SCRIPT HERE -->
+      <span>[ Top Banner Ad ]</span>
+    </div>
+
+    <div id="pagesContainer">Select a chapter or loading images...</div>
+
+    <!-- BOTTOM READER AD SLOT -->
+    <div class="ad-slot">
+      <!-- PASTE YOUR AD SCRIPT HERE -->
+      <span>[ Bottom Banner / Pop-under Trigger ]</span>
+    </div>
+
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const mangaId = params.get('id');
+    const mangaTitle = params.get('title');
+
+    if (mangaTitle) document.getElementById('mangaTitle').innerText = mangaTitle;
+
+    async function loadFirstChapter() {
+      const container = document.getElementById('pagesContainer');
+      try {
+        // Fetch feed to get chapter ID
+        const feedRes = await fetch(`https://api.mangadex.org/manga/${mangaId}/feed?translatedLanguage[]=en&order[chapter]=asc&limit=1`);
+        const feedData = await feedRes.json();
+        
+        if (!feedData.data.length) {
+          container.innerHTML = '<p>No English chapters available for this manga.</p>';
+          return;
+        }
+
+        const firstChapterId = feedData.data[0].id;
+        
+        // Fetch pages via API backend proxy
+        const pagesRes = await fetch(`/api/get-manga?action=chapter&chapterId=${firstChapterId}`);
+        const pagesData = await pagesRes.json();
+
+        container.innerHTML = '';
+        pagesData.pages.forEach((src, idx) => {
+          const img = document.createElement('img');
+          img.src = src;
+          img.alt = `Page ${idx + 1}`;
+          container.appendChild(img);
+        });
+      } catch (err) {
+        container.innerHTML = '<p>Error loading chapter pages.</p>';
+      }
+    }
+
+    if (mangaId) loadFirstChapter();
+  </script>
+</body>
+</html>
