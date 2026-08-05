@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login - Manga Hunt</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #000000;
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .login-box {
+      background-color: #111111;
+      padding: 40px;
+      border-radius: 8px;
+      border: 1px solid #222;
+      text-align: center;
+      width: 300px;
+      box-shadow: 0 4px 15px rgba(56, 189, 248, 0.1);
+    }
+    .login-box h2 {
+      margin-top: 0;
+      color: #38bdf8;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 15px 0;
+      background-color: #000;
+      border: 1px solid #333;
+      color: #fff;
+      border-radius: 5px;
+      box-sizing: border-box;
+      text-align: center;
+    }
+    button {
+      width: 100%;
+      background-color: #38bdf8;
+      color: #000;
+      border: none;
+      padding: 12px;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    button:hover {
+      background-color: #0ea5e9;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-box">
+    <h2>Admin Login</h2>
+    <!-- এখানে পাসওয়ার্ড টাইপ করা হবে -->
+    <input type="password" id="passwordInput" placeholder="Enter Password">
+    <button onclick="checkPassword()">Login</button>
+  </div>
+
+  <script>
+    function checkPassword() {
+      const pass = document.getElementById('passwordInput').value;
+      
+      // আপনার অ্যাডমিন পাসওয়ার্ড এখানে সেট করুন (যেমন: 123456)
+      if (pass === 'Nabil0711') { 
+        // পাসওয়ার্ড সঠিক হলে ব্রাউজারে সেভ করে admin.html এ পাঠিয়ে দিবে
+        localStorage.setItem('adminAccess', 'granted');
+        window.location.href = 'admin.html';
+      } else {
+        alert('Wrong Password! Try again.');
+      }
+    }
+  </script>
+
+</body>
+</html>
