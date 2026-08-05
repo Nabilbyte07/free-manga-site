@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MangaVerse - Read Free Manga</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header>
+    <h2>MangaVerse</h2>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search manga..." onkeyup="searchManga()">
+    </div>
+  </header>
+
+  <!-- TOP MONETIZATION AD SPOT -->
+  <div class="ad-slot" id="top-ad-banner">
+    <!-- PASTE YOUR ADSTERRA / HILLTOPADS SCRIPT HERE -->
+    <span>[ Ad Space - Place Adsterra/HilltopAds Script Here ]</span>
+  </div>
+
+  <main>
+    <div class="manga-grid" id="mangaGrid">Loading popular manga...</div>
+  </main>
+
+  <script>
+    async function fetchManga(query = '') {
+      const grid = document.getElementById('mangaGrid');
+      grid.innerHTML = 'Loading...';
+      try {
+        const res = await fetch(`/api/get-manga?action=search&query=${encodeURIComponent(query)}`);
+        const data = await res.json();
+        
+        grid.innerHTML = '';
+        data.data.forEach(manga => {
+          const title = manga.attributes.title.en || 'Untitled';
+          const coverRel = manga.relationships.find(r => r.type === 'cover_art');
+          const fileName = coverRel ? coverRel.attributes?.fileName : '';
+          const coverUrl = fileName ? `https://uploads.mangadex.org/covers/${manga.id}/${fileName}.256.jpg` : 'https://via.placeholder.com/250';
+
+          const card = document.createElement('a');
+          card.className = 'manga-card';
+          card.href = `reader.html?id=${manga.id}&title=${encodeURIComponent(title)}`;
+          card.innerHTML = `
+            <img src="${coverUrl}" alt="${title}">
+            <h3>${title}</h3>
+          `;
+          grid.appendChild(card);
+        });
+      } catch (err) {
+        grid.innerHTML = 'Failed to load manga.';
+      }
+    }
+
+    let timeout = null;
+    function searchManga() {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        const q = document.getElementById('searchInput').value;
+        fetchManga(q);
+      }, 500);
+    }
+
+    fetchManga();
+  </script>
+</body>
+</html>
