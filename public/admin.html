@@ -4,6 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard - Manga Hunt</title>
+  
+  <!-- সিকিউরিটি চেক: এটি সবার আগে লোড হবে -->
+  <script>
+    if (localStorage.getItem('adminAccess') !== 'granted') {
+      // replace ব্যবহার করলে কেউ Back বাটন দিয়েও ফিরতে পারবে না
+      window.location.replace('login.html'); 
+    }
+    
+    function logoutAdmin() {
+      localStorage.removeItem('adminAccess');
+      window.location.replace('login.html');
+    }
+  </script>
+
+  <!-- আপনার বাকি CSS স্টাইলগুলো এর নিচে থাকবে... -->
   <style>
     body {
       margin: 0;
