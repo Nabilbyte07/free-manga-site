@@ -213,7 +213,25 @@ Allahu Akbar (ٱللَّهُ أَكْبَرُ) – 34 times (Allah is the Greate
     <p>Contact Us</p>
     <a href="mailto:kayesnabil17@gmail.com">kayesnabil17@gmail.com</a>
   </footer>
+  <!-- Tic-Tac-Toe Pop-up Button -->
+  <button onclick="openGame()" style="position: fixed; bottom: 20px; right: 20px; padding: 12px 20px; background: #10b981; color: white; border: none; border-radius: 30px; cursor: pointer; font-family: 'Inter', sans-serif; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 1000;">
+    🎮 Play a Game
+  </button>
 
+  <!-- Tic-Tac-Toe Modal -->
+  <div id="gameModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); z-index: 1001; justify-content: center; align-items: center;">
+    <div style="background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.2); padding: 30px; border-radius: 15px; text-align: center; color: white; box-shadow: 0 8px 32px rgba(0,0,0,0.5);">
+      <h2 id="gameTitle" style="color: #34d399; margin-top: 0;">Your Turn! (Play as X)</h2>
+      
+      <div id="ticTacToeBoard" style="display: grid; grid-template-columns: repeat(3, 80px); gap: 10px; margin: 20px auto;">
+        <!-- JS দিয়ে বোর্ড তৈরি হবে -->
+      </div>
+
+      <h1 id="gameMessage" style="display: none; font-size: 2.5rem; color: #10b981; margin: 20px 0; font-family: 'Amiri', serif;"></h1>
+      
+      <button onclick="closeGame()" style="padding: 10px 20px; background: #ef4444; color: white; border: none; border-radius: 5px; cursor: pointer; margin-top: 15px; font-weight: bold;">Close</button>
+    </div>
+  </div>
   <script>
     // সার্চ ফাংশন - টাইপ করার সাথে সাথে দোয়া ফিল্টার হবে
     function searchDua() {
@@ -230,6 +248,74 @@ Allahu Akbar (ٱللَّهُ أَكْبَرُ) – 34 times (Allah is the Greate
           cards[i].style.display = "none";
         }
       }
+    }
+    // Tic-Tac-Toe Logic
+    const board = document.getElementById('ticTacToeBoard');
+    const gameMessage = document.getElementById('gameMessage');
+    const gameTitle = document.getElementById('gameTitle');
+    const phrases = ["Alhamdulillah 💚", "Subhanallah 🌿", "Allahu Akbar 🕋"];
+
+    function initGame() {
+      board.innerHTML = '';
+      board.style.display = 'grid';
+      gameMessage.style.display = 'none';
+      gameTitle.innerText = "Your Turn! (Play as X)";
+
+      // আগে থেকেই কিছু ঘরে X এবং O বসানো থাকবে, যাতে ১ চালেই জিতা যায়
+      const preFilled = {0: 'X', 1: 'X', 4: 'O', 8: 'O'};
+
+      for (let i = 0; i < 9; i++) {
+        let cell = document.createElement('div');
+        cell.style.width = '80px';
+        cell.style.height = '80px';
+        cell.style.background = 'rgba(255,255,255,0.1)';
+        cell.style.border = '2px solid rgba(255,255,255,0.3)';
+        cell.style.borderRadius = '8px';
+        cell.style.display = 'flex';
+        cell.style.justifyContent = 'center';
+        cell.style.alignItems = 'center';
+        cell.style.fontSize = '2.5rem';
+        cell.style.fontWeight = 'bold';
+        cell.style.cursor = 'pointer';
+
+        if (preFilled[i]) {
+          cell.innerText = preFilled[i];
+          cell.style.color = preFilled[i] === 'X' ? '#34d399' : '#f87171';
+          cell.style.cursor = 'default';
+        } else {
+          cell.onclick = () => winGame(cell);
+        }
+        board.appendChild(cell);
+      }
+    }
+
+    function winGame(cell) {
+      cell.innerText = 'X';
+      cell.style.color = '#34d399';
+      
+      const allCells = board.children;
+      for(let i=0; i<allCells.length; i++) {
+        allCells[i].onclick = null;
+        allCells[i].style.cursor = 'default';
+      }
+
+      // আধা সেকেন্ড পর বোর্ড লুকিয়ে মেসেজ দেখাবে
+      setTimeout(() => {
+        board.style.display = 'none';
+        gameTitle.innerText = "You Win! 🎉";
+        const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+        gameMessage.innerText = randomPhrase;
+        gameMessage.style.display = 'block';
+      }, 400);
+    }
+
+    function openGame() {
+      document.getElementById('gameModal').style.display = 'flex';
+      initGame();
+    }
+
+    function closeGame() {
+      document.getElementById('gameModal').style.display = 'none';
     }
   </script>
 </body>
