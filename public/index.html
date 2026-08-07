@@ -12,23 +12,31 @@
     body {
       margin: 0;
       font-family: 'Inter', sans-serif;
-      background-color: #f8fafc;
-      color: #0f172a;
+      /* Background Image */
+      background-image: url('https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80'); 
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+      color: #ffffff;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
     
     header {
-      background-color: #10b981; /* সুন্দর ইসলামিক সবুজ রঙ */
+      /* Transparent Glass Effect */
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       width: 100%;
       padding: 3rem 0;
       text-align: center;
       color: white;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
-    header h1 { margin: 0; font-size: 2.5rem; }
-    header p { margin-top: 10px; font-size: 1.1rem; opacity: 0.9; }
+    header h1 { margin: 0; font-size: 2.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.6); }
+    header p { margin-top: 10px; font-size: 1.1rem; opacity: 0.9; text-shadow: 1px 1px 3px rgba(0,0,0,0.6); }
     
     .search-box {
       margin-top: 25px;
@@ -41,11 +49,17 @@
       width: 100%;
       padding: 15px 20px;
       border-radius: 30px;
-      border: none;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
       font-size: 1rem;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
       box-sizing: border-box;
       outline: none;
+      backdrop-filter: blur(5px);
+    }
+    .search-box input::placeholder {
+      color: rgba(255, 255, 255, 0.8);
     }
     
     .dua-container {
@@ -59,24 +73,28 @@
     }
     
     .dua-card {
-      background: white;
+      /* Card Transparent Glass Effect */
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       border-radius: 12px;
       padding: 25px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-left: 5px solid #10b981;
       transition: transform 0.2s;
     }
     .dua-card:hover {
       transform: translateY(-3px);
-      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+      background: rgba(0, 0, 0, 0.55);
     }
     
     .dua-title {
       font-size: 1.25rem;
       font-weight: 600;
-      color: #10b981;
+      color: #34d399;
       margin-bottom: 15px;
-      border-bottom: 1px solid #e2e8f0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       padding-bottom: 10px;
     }
     
@@ -85,15 +103,18 @@
       font-size: 2.2rem;
       text-align: right;
       margin-bottom: 15px;
-      color: #1e293b;
+      color: #ffffff;
       line-height: 1.8;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+      white-space: pre-line; /* একাধিক লাইন ঠিকমতো দেখানোর জন্য */
     }
     
     .translation {
       font-size: 1.05rem;
-      color: #475569;
+      color: #e2e8f0;
       line-height: 1.6;
       font-weight: 400;
+      white-space: pre-line; /* একাধিক লাইন ঠিকমতো দেখানোর জন্য */
     }
     
     .reference {
@@ -102,15 +123,22 @@
       color: #94a3b8;
       font-style: italic;
     }
+
+    /* Dua 3-এর মতো মিক্সড টেক্সট ডান থেকে বামে সুন্দর দেখানোর জন্য একটি স্পেশাল ক্লাস */
+    .mixed-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 1.2rem;
+      text-align: left;
+    }
   </style>
 </head>
 <body>
 
   <header>
     <h1>Daily Duas</h1>
-    <p>আপনার দৈনন্দিন জীবনের প্রয়োজনীয় দোয়া সমূহ</p>
+    <p>আপনার দৈনন্দিন জীবনের প্রয়োজনীয় দোয়া সমূহ</p>
     <div class="search-box">
-      <input type="text" id="searchInput" placeholder="দোয়া খুঁজুন (যেমন: Morning, Forgiveness)..." onkeyup="searchDua()">
+      <input type="text" id="searchInput" placeholder="দোয়া খুঁজুন (যেমন: Morning, Forgiveness)..." onkeyup="searchDua()">
     </div>
   </header>
 
@@ -118,16 +146,16 @@
     
     <!-- Dua 1 -->
     <div class="dua-card">
-      <div class="dua-title">ঘুম থেকে ওঠার দোয়া (Dua for Waking Up)</div>
-      <div class="arabic-text">الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ</div>
-      <div class="translation">"সব প্রশংসা আল্লাহর জন্য, যিনি আমাদের মৃত করার পর পুনরায় জীবিত করেছেন এবং তাঁর দিকেই আমাদের ফিরে যেতে হবে।"</div>
+      <div class="dua-title">ঘুম থেকে ওঠার দোয়া (Dua for Waking Up)</div>
+      <div class="arabic-text">الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ</div>
+      <div class="translation">"সব প্রশংসা আল্লাহর জন্য, যিনি আমাদের মৃত করার পর পুনরায় জীবিত করেছেন এবং তাঁর দিকেই আমাদের ফিরে যেতে হবে।"</div>
       <div class="reference">Sahih Al-Bukhari</div>
     </div>
 
     <!-- Dua 2 -->
     <div class="dua-card">
-      <div class="dua-title">জ্ঞান বৃদ্ধির দোয়া (Dua for Knowledge)</div>
-      <div class="arabic-text">رَّبِّ زِدْنِى عِلْمًا</div>
+      <div class="dua-title">জ্ঞান বৃদ্ধির দোয়া (Dua for Knowledge)</div>
+      <div class="arabic-text">رَّبِّ زِدْنِى عِلْمًا</div>
       <div class="translation">"হে আমার পালনকর্তা, আমার জ্ঞান বৃদ্ধি করে দিন।"</div>
       <div class="reference">Surah Ta-Ha [20:114]</div>
     </div>
@@ -135,7 +163,7 @@
     <!-- Dua 3 -->
     <div class="dua-card">
       <div class="dua-title">For Strength (Dua for before sleeping)</div>
-      <div class="arabic-text">Subhan Allah (سُبْحَانَ اللَّهِ) – 33 times (Glory be to Allah)
+      <div class="arabic-text mixed-text">Subhan Allah (سُبْحَانَ اللَّهِ) – 33 times (Glory be to Allah)
 Alhamdulillah (ٱلْحَمْدُ لِلَّٰهِ) – 33 times (Praise be to Allah)
 Allahu Akbar (ٱللَّهُ أَكْبَرُ) – 34 times (Allah is the Greatest)</div>
       <div class="translation">"Prophet Muhammad (ﷺ) said:
@@ -146,7 +174,7 @@ Allahu Akbar (ٱللَّهُ أَكْبَرُ) – 34 times (Allah is the Greate
   </div>
 
   <script>
-    // সার্চ ফাংশন - টাইপ করার সাথে সাথে দোয়া ফিল্টার হবে
+    // সার্চ ফাংশন - টাইপ করার সাথে সাথে দোয়া ফিল্টার হবে
     function searchDua() {
       let input = document.getElementById('searchInput').value.toLowerCase();
       let cards = document.getElementsByClassName('dua-card');
