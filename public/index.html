@@ -3,120 +3,154 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Manga Hunt - Read Free Manga</title>
+  <title>Daily Duas - Islamic Supplications</title>
   
-  <!-- ১০০% ডার্ক মোড গ্যারান্টি দেওয়ার জন্য স্টাইল সরাসরি HTML এ দেওয়া হলো -->
+  <!-- আরবি এবং ইংরেজির জন্য সুন্দর ফন্ট -->
+  <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  
   <style>
     body {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background-color: #000000 !important; /* ওয়েবসাইট একদম কালো */
-      color: #ffffff !important; /* লেখা সাদা */
+      font-family: 'Inter', sans-serif;
+      background-color: #f8fafc;
+      color: #0f172a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-    .manga-card {
-      background: #111111;
-      border-radius: 8px;
-      overflow: hidden;
-      text-decoration: none;
-      color: #ffffff;
-      border: 1px solid #222;
+    
+    header {
+      background-color: #10b981; /* সুন্দর ইসলামিক সবুজ রঙ */
+      width: 100%;
+      padding: 3rem 0;
+      text-align: center;
+      color: white;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+    header h1 { margin: 0; font-size: 2.5rem; }
+    header p { margin-top: 10px; font-size: 1.1rem; opacity: 0.9; }
+    
+    .search-box {
+      margin-top: 25px;
+      width: 90%;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .search-box input {
+      width: 100%;
+      padding: 15px 20px;
+      border-radius: 30px;
+      border: none;
+      font-size: 1rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      box-sizing: border-box;
+      outline: none;
+    }
+    
+    .dua-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 90%;
+      max-width: 800px;
+      margin-top: 40px;
+      margin-bottom: 40px;
+    }
+    
+    .dua-card {
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      border-left: 5px solid #10b981;
       transition: transform 0.2s;
     }
-    .manga-card:hover {
-      transform: translateY(-5px);
-      border-color: #38bdf8;
+    .dua-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
     }
-    .manga-card img {
-      width: 100%;
-      height: 250px;
-      object-fit: cover;
+    
+    .dua-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #10b981;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 10px;
     }
-    .ad-slot {
-      width: 100%;
-      min-height: 90px;
-      background: #111111;
-      border: 1px dashed #444;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 1rem 0;
-      color: #888;
+    
+    .arabic-text {
+      font-family: 'Amiri', serif;
+      font-size: 2.2rem;
+      text-align: right;
+      margin-bottom: 15px;
+      color: #1e293b;
+      line-height: 1.8;
     }
-    .manga-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 1.5rem;
-      padding: 2rem;
-      width: 100%;
-      box-sizing: border-box;
+    
+    .translation {
+      font-size: 1.05rem;
+      color: #475569;
+      line-height: 1.6;
+      font-weight: 400;
+    }
+    
+    .reference {
+      margin-top: 15px;
+      font-size: 0.85rem;
+      color: #94a3b8;
+      font-style: italic;
     }
   </style>
 </head>
-<body style="background-color: #000000; color: #ffffff;">
+<body>
 
-  <!-- ফোর্স সেন্টার করার জন্য নতুন ডিভ -->
-  <div style="display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; padding-top: 20px;">
+  <header>
+    <h1>Daily Duas</h1>
+    <p>আপনার দৈনন্দিন জীবনের প্রয়োজনীয় দোয়া সমূহ</p>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="দোয়া খুঁজুন (যেমন: Morning, Forgiveness)..." onkeyup="searchDua()">
+    </div>
+  </header>
+
+  <div class="dua-container" id="duaList">
     
-    <!-- ব্যানার ছবি -->
-    <img src="kaka.jpg" alt="Manga Hunt Banner" style="max-width: 90%; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 4px 8px rgba(255,255,255,0.05);">
+    <!-- Dua 1 -->
+    <div class="dua-card">
+      <div class="dua-title">ঘুম থেকে ওঠার দোয়া (Dua for Waking Up)</div>
+      <div class="arabic-text">الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ</div>
+      <div class="translation">"সব প্রশংসা আল্লাহর জন্য, যিনি আমাদের মৃত করার পর পুনরায় জীবিত করেছেন এবং তাঁর দিকেই আমাদের ফিরে যেতে হবে।"</div>
+      <div class="reference">Sahih Al-Bukhari</div>
+    </div>
 
-    <!-- লোগো এবং সার্চ বক্স -->
-    <div style="margin-bottom: 30px;">
-      <h2 style="font-size: 2rem; margin-bottom: 15px; color: #fff;">Manga Hunt</h2>
-      <input type="text" id="searchInput" placeholder="Search manga..." onkeyup="searchManga()" 
-             style="padding: 12px; width: 300px; max-width: 90vw; border-radius: 8px; border: 1px solid #38bdf8; background: #111111; color: #fff; text-align: center; font-size: 1rem;">
+    <!-- Dua 2 -->
+    <div class="dua-card">
+      <div class="dua-title">জ্ঞান বৃদ্ধির দোয়া (Dua for Knowledge)</div>
+      <div class="arabic-text">رَّبِّ زِدْنِى عِلْمًا</div>
+      <div class="translation">"হে আমার পালনকর্তা, আমার জ্ঞান বৃদ্ধি করে দিন।"</div>
+      <div class="reference">Surah Ta-Ha [20:114]</div>
     </div>
 
   </div>
 
-  <!-- TOP MONETIZATION AD SPOT -->
-  <div class="ad-slot" id="top-ad-banner">
-    <span>[ Ad Space - Place Adsterra/HilltopAds Script Here ]</span>
-  </div>
-
-  <main>
-    <div class="manga-grid" id="mangaGrid">Loading popular manga...</div>
-  </main>
-
   <script>
-    async function fetchManga(query = '') {
-      const grid = document.getElementById('mangaGrid');
-      grid.innerHTML = 'Loading...';
-      try {
-        const res = await fetch(`/api/get-manga?action=search&query=${encodeURIComponent(query)}`);
-        const data = await res.json();
+    // সার্চ ফাংশন - টাইপ করার সাথে সাথে দোয়া ফিল্টার হবে
+    function searchDua() {
+      let input = document.getElementById('searchInput').value.toLowerCase();
+      let cards = document.getElementsByClassName('dua-card');
+      
+      for (let i = 0; i < cards.length; i++) {
+        let title = cards[i].getElementsByClassName('dua-title')[0].innerText.toLowerCase();
+        let translation = cards[i].getElementsByClassName('translation')[0].innerText.toLowerCase();
         
-        grid.innerHTML = '';
-        data.data.forEach(manga => {
-          const title = manga.attributes.title.en || 'Untitled';
-          const coverRel = manga.relationships.find(r => r.type === 'cover_art');
-          const fileName = coverRel ? coverRel.attributes?.fileName : '';
-          const coverUrl = fileName ? `https://uploads.mangadex.org/covers/${manga.id}/${fileName}.256.jpg` : 'https://via.placeholder.com/250';
-
-          const card = document.createElement('a');
-          card.className = 'manga-card';
-          card.href = `reader.html?id=${manga.id}&title=${encodeURIComponent(title)}`;
-          card.innerHTML = `
-            <img src="${coverUrl}" alt="${title}">
-            <h3 style="text-align: center; padding: 0.75rem; margin: 0; font-size: 0.95rem;">${title}</h3>
-          `;
-          grid.appendChild(card);
-        });
-      } catch (err) {
-        grid.innerHTML = 'Failed to load manga.';
+        if (title.includes(input) || translation.includes(input)) {
+          cards[i].style.display = "";
+        } else {
+          cards[i].style.display = "none";
+        }
       }
     }
-
-    let timeout = null;
-    function searchManga() {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => {
-        const q = document.getElementById('searchInput').value;
-        fetchManga(q);
-      }, 500);
-    }
-
-    fetchManga();
   </script>
 </body>
 </html>
