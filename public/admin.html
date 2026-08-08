@@ -3,176 +3,114 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard - Manga Hunt</title>
-  
-  <!-- সিকিউরিটি চেক: এটি সবার আগে লোড হবে -->
-  <script>
-    if (localStorage.getItem('adminAccess') !== 'granted') {
-      // replace ব্যবহার করলে কেউ Back বাটন দিয়েও ফিরতে পারবে না
-      window.location.replace('login.html'); 
-    }
-    
-    function logoutAdmin() {
-      localStorage.removeItem('adminAccess');
-      window.location.replace('login.html');
-    }
-  </script>
-
-  <!-- আপনার বাকি CSS স্টাইলগুলো এর নিচে থাকবে... -->
+  <title>Admin Panel - Daily Dhikr</title>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #000000;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
       color: #ffffff;
-      display: flex;
-      height: 100vh;
-      overflow: hidden;
-    }
-    
-    /* Sidebar Styling */
-    .sidebar {
-      width: 250px;
-      background-color: #111111;
-      border-right: 1px solid #222;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      padding-top: 20px;
-    }
-    .sidebar h2 {
-      text-align: center;
-      color: #38bdf8;
-      margin-bottom: 30px;
-    }
-    .nav-item {
-      padding: 15px 20px;
-      cursor: pointer;
-      border-bottom: 1px solid #222;
-      transition: background 0.2s;
-    }
-    .nav-item:hover {
-      background-color: #222;
-      color: #38bdf8;
-    }
-    
-    /* Main Content Styling */
-    .main-content {
-      flex-grow: 1;
-      padding: 30px;
-      overflow-y: auto;
-    }
-    .header {
-      display: flex;
-      justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid #333;
-      padding-bottom: 15px;
-      margin-bottom: 30px;
-    }
-    
-    /* Dashboard Cards */
-    .card-container {
-      display: flex;
-      gap: 20px;
-      margin-bottom: 30px;
+      padding: 40px 20px;
     }
     .card {
-      background-color: #111111;
-      padding: 20px;
-      border-radius: 8px;
-      flex: 1;
-      border: 1px solid #222;
-      text-align: center;
-    }
-    .card h3 {
-      margin: 0;
-      color: #888;
-      font-size: 1rem;
-    }
-    .card p {
-      font-size: 2rem;
-      margin: 10px 0 0 0;
-      font-weight: bold;
-      color: #38bdf8;
-    }
-
-    /* Action Section */
-    .action-panel {
-      background-color: #111111;
-      padding: 20px;
-      border-radius: 8px;
-      border: 1px solid #222;
-    }
-    .action-panel input, .action-panel textarea {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 12px;
       width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      background-color: #000;
-      border: 1px solid #333;
-      color: #fff;
-      border-radius: 5px;
+      max-width: 600px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+    h2 { color: #34d399; margin-top: 0; text-align: center; }
+    .form-group { margin-bottom: 20px; }
+    label { display: block; margin-bottom: 8px; font-weight: 600; color: #cbd5e1; }
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 1rem;
       box-sizing: border-box;
+      outline: none;
     }
-    .btn {
-      background-color: #38bdf8;
-      color: #000;
+    textarea { height: 100px; resize: vertical; }
+    .arabic-input { font-family: 'Amiri', serif; font-size: 1.5rem; text-align: right; }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #10b981;
+      color: white;
       border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
+      border-radius: 8px;
+      font-size: 1rem;
       font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
     }
-    .btn:hover {
-      background-color: #0ea5e9;
-    }
+    button:hover { background: #059669; }
+    .back-link { display: block; text-align: center; margin-top: 20px; color: #94a3b8; text-decoration: none; }
+    .back-link:hover { color: white; }
   </style>
+  <script>
+    // সিকিউরিটি চেক: পাসওয়ার্ড দেওয়া না থাকলে লগইন পেজে পাঠাবে
+    if (localStorage.getItem('adminAccess') !== 'granted') {
+      window.location.replace('login.html');
+    }
+  </script>
 </head>
 <body>
 
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <h2>MH Admin</h2>
-    <div class="nav-item">📊 Dashboard Overview</div>
-    <div class="nav-item">📚 Manage Manga</div>
-    <div class="nav-item">💰 Ad Settings</div>
-    <div class="nav-item">⚙️ Site Settings</div>
+  <div class="card">
+    <h2>Add New Dua</h2>
+    <form onsubmit="saveDua(event)">
+      <div class="form-group">
+        <label>Dua Title (যেমন: Morning Dua)</label>
+        <input type="text" id="duaTitle" required placeholder="Enter title...">
+      </div>
+      <div class="form-group">
+        <label>Arabic Text (আরবি)</label>
+        <textarea id="duaArabic" class="arabic-input" required placeholder="القرآن..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Translation & Meaning (অনুবাদ)</label>
+        <textarea id="duaTranslation" required placeholder="Write translation..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Reference (রেফারেন্স)</label>
+        <input type="text" id="duaReference" required placeholder="e.g. Sahih Al-Bukhari">
+      </div>
+      <button type="submit">Publish Dua</button>
+    </form>
+    <a href="index.html" class="back-link">← Go to Website</a>
   </div>
 
-  <!-- Main Content -->
-  <div class="main-content">
-    <div class="header">
-      <h1>Welcome, Admin</h1>
-      <button class="btn" style="background-color: #ef4444; color: white;">Logout</button>
-    </div>
-
-    <!-- Stats -->
-    <div class="card-container">
-      <div class="card">
-        <h3>Total Visitors (Mock)</h3>
-        <p>1,204,354</p>
-      </div>
-      <div class="card">
-        <h3>Custom Uploads</h3>
-        <p>0</p>
-      </div>
-      <div class="card">
-        <h3>Ad Revenue Clicks</h3>
-        <p>450,346</p>
-      </div>
-    </div>
-
-    <!-- Upload/Settings Panel -->
-    <div class="action-panel">
-      <h2>Update Banner Image URL</h2>
-      <p style="color: #888; font-size: 0.9rem;">(পরবর্তীতে ডেটাবেস কানেক্ট করলে এই লিংকটি সেভ হয়ে মেইন ওয়েবসাইটে আপডেট হবে)</p>
-      <input type="text" placeholder="https://example.com/new-banner.jpg">
+  <script>
+    function saveDua(e) {
+      e.preventDefault();
       
-      <h2>Update Top Ad Script</h2>
-      <textarea rows="4" placeholder="Paste Adsterra / HilltopAds script here..."></textarea>
-      
-      <button class="btn">Save Changes</button>
-    </div>
-  </div>
+      let newDua = {
+        title: document.getElementById('duaTitle').value,
+        arabic: document.getElementById('duaArabic').value,
+        translation: document.getElementById('duaTranslation').value,
+        reference: document.getElementById('duaReference').value
+      };
 
+      // আগের দোয়াগুলোর সাথে নতুন দোয়াটি যোগ করা
+      let existingDuas = JSON.parse(localStorage.getItem('customDuas')) || [];
+      existingDuas.push(newDua);
+      localStorage.setItem('customDuas', JSON.stringify(existingDuas));
+
+      alert('Dua published successfully!');
+      e.target.reset();
+    }
+  </script>
 </body>
 </html>
