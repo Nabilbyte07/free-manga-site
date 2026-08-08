@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Daily Islamic Dua-For Spiritual Power</title>
+  <title>Daily Islamic Dua - For Spiritual Power</title>
   
   <!-- আরবি এবং ইংরেজির জন্য সুন্দর ফন্ট -->
   <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Inter:wght@400;600&display=swap" rel="stylesheet">
@@ -201,7 +201,7 @@ Allahu Akbar (ٱللَّهُ أَكْبَرُ) – 34 times (Allah is the Greate
       <div class="translation">"Prophet Muhammad (ﷺ) said:
 “Shall I not tell you of something better than what you have asked? When you go to bed, say: SubhanAllah 33 times, Alhamdulillah 33 times, and Allahu Akbar 34 times. It is better for you than a servant.”
         
-        রাসূলুল্লাহ (সা.) বলেছেন:
+      রাসূলুল্লাহ (সা.) বলেছেন:
 
 "তুমি যা চেয়েছ তার চেয়েও উত্তম কোনো বিষয়ের সংবাদ কি তোমাকে দেব না? যখন তুমি বিছানায় ঘুমাতে যাবে, তখন ৩৩ বার সুবহানাল্লাহ, ৩৩ বার আলহামদুলিল্লাহ এবং ৩৪ বার আল্লাহু আকবার বল। এটি তোমার জন্য একজন খাদেমের (সেবকের) চেয়েও উত্তম।""</div>
       <div class="reference">Bukhari, Muslim</div>
@@ -237,6 +237,24 @@ Allahu Akbar (ٱللَّهُ أَكْبَرُ) – 34 times (Allah is the Greate
   </div>
 
   <script>
+    // Load Custom Duas from localStorage on startup
+    window.addEventListener('DOMContentLoaded', () => {
+      let customDuas = JSON.parse(localStorage.getItem('customDuas')) || [];
+      let container = document.getElementById('duaList');
+
+      customDuas.forEach(dua => {
+        let card = document.createElement('div');
+        card.className = 'dua-card';
+        card.innerHTML = `
+          <div class="dua-title">${dua.title}</div>
+          <div class="arabic-text">${dua.arabic}</div>
+          <div class="translation">${dua.translation}</div>
+          <div class="reference">${dua.reference}</div>
+        `;
+        container.appendChild(card);
+      });
+    });
+
     // Search Function
     function searchDua() {
       let input = document.getElementById('searchInput').value.toLowerCase();
@@ -328,7 +346,6 @@ Allahu Akbar (ٱللَّهُ أَكْبَرُ) – 34 times (Allah is the Greate
       }
 
       if (availableCells.length > 0) {
-        // Simple random AI
         let randomIndex = Math.floor(Math.random() * availableCells.length);
         let moveIndex = availableCells[randomIndex];
         
